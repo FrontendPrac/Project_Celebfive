@@ -109,4 +109,7 @@ const LogoutButton = styled.button`
 
 const StModalBox = styled.div`
   text-align: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 `;
