@@ -179,7 +179,9 @@ const Modal = ({ modalOpen, setModalOpen }: ModalProps) => {
     </>
   );
 };
+
 export default Modal;
+
 export const Container = styled.div`
   position: fixed;
   top: 50%;
@@ -193,6 +195,7 @@ export const Container = styled.div`
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.7);
 `;
+
 const CloseButton = styled.button`
   position: absolute;
   top: 10px;
@@ -214,6 +217,7 @@ export const ModalContainer = styled.div`
   background-color: white;
   z-index: 1000;
 `;
+
 const LoginButton = styled.button`
   margin: 10px;
   width: 250px;
@@ -223,6 +227,7 @@ const LoginButton = styled.button`
   background-color: #fadedd;
   cursor: pointer;
 `;
+
 const ButtonContainer = styled.div`
   margin: 20px;
   display: flex;

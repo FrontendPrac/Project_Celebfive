@@ -1,14 +1,39 @@
 import { signOut } from "firebase/auth";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 import { authService } from "../firebase";
 import Modal from "./Modal";
+import Modal2 from "./Modal2";
 
 export const Header = () => {
+  const [isOpenModal, setOpenModal] = useState(false);
+
+  //* isOpenModal 상태값을 토글링하는 함수
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
+
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const goToMain = () => {
+    navigate("/");
+  };
+
+  const logOutClick = () => {
+    signOut(authService)
+      .then(() => {
+        // alert("로그아웃");
+        onClickToggleModal();
+        navigate("/");
+      })
+      .catch((event) => {
+        alert(event);
+      });
+  };
+
   const openModal = () => {
     if (authService.currentUser) {
       navigate("/");
@@ -17,21 +42,6 @@ export const Header = () => {
       setModalOpen(true);
       document.body.style.overflow = "hidden";
     }
-  };
-
-  const logOutClick = () => {
-    signOut(authService)
-      .then(() => {
-        alert("로그아웃");
-        navigate("/");
-      })
-      .catch((event) => {
-        alert(event);
-      });
-  };
-
-  const goToMain = () => {
-    navigate("/");
   };
 
   return (
@@ -43,6 +53,12 @@ export const Header = () => {
         <LoginButton onClick={openModal}>로그인</LoginButton>
       )}
       {modalOpen && <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} />}
+
+      {isOpenModal && (
+        <Modal2 onClickToggleModal={onClickToggleModal}>
+          <StModalBox>로그아웃 성공</StModalBox>
+        </Modal2>
+      )}
     </HeaderWrapper>
   );
 };
@@ -89,4 +105,8 @@ const LogoutButton = styled.button`
     font-size: 1.3rem;
   }
   cursor: pointer;
+`;
+
+const StModalBox = styled.div`
+  text-align: center;
 `;
